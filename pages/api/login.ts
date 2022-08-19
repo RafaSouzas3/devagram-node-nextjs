@@ -7,7 +7,7 @@ export default (
     if(req.method === 'POST'){
         const {login,senha} = req.body;
 
-        if(login === 'adimin@admin.com' && 
+        if(login === 'adimin@adimin.com' && 
             senha === 'Adimin@123'){
                 res.status(200).json({msg : 'Usuario autenticado com sucesso'});
             }
