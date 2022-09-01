@@ -6,7 +6,6 @@ import {conectamongoDB} from '../../middlewares/conectamongoDB';
 import md5 from "md5";
 import { upload ,uploadImagemCosmic } from "../../services/uploadImagemCosmic";
 import nc from 'next-connect';
-import { config } from "process";
 
 const handler = nc ()
 
@@ -42,11 +41,11 @@ const handler = nc ()
                    }
                 await UsuarioModel.create(usuarioASerSalvo);
                 return res.status(200).json({ msg:'Usuario criado com sucesso'});
-            }
-);
+});
+
 export const config = {
-    api: {
-        bodyParser : false
+    api:{
+        bodyParser: false
     }
 }
 
