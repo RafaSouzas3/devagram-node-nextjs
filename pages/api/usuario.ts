@@ -3,8 +3,40 @@ import type { respostaPadraoMsg } from "../../types/respostaPadraoMsg";
 import { validarTokenJWT } from "../../middlewares/validarTokenJWT";
 import { conectamongoDB } from "../../middlewares/conectamongoDB";
 import { UsuarioModel } from "../../models/UsuarioModel";
+import nc from "next-connect";
+import { upload, uploadImagemCosmic } from "../../services/uploadImagemCosmic";
+import { setRevalidateHeaders } from "next/dist/server/send-payload";
 
-const usuarioEndPoint = async(req : NextApiRequest , res : NextApiResponse <respostaPadraoMsg | any>) => {
+const handler = nc ()
+.use(upload.single('file'))
+.put(async(req : any , res: NextApiResponse<respostaPadraoMsg | any>) => {
+    try{
+        const{userId} = req?.query;
+        const usuario = await UsuarioModel.findById(userId);
+        if(!usuario){
+             return res.status(400).json({erro: 'Usuario nao encontrado'});
+            }
+            const {nome} =req.body;
+            if(!nome && nome.length > 2){
+                usuario.nome = nome;
+        }
+        const{file} = req;
+           if(file && file.originalName){
+            const image = await uploadImagemCosmic(req);
+            if(image && image.media && image.media.url){
+                usuario.file = image.media.url ;
+            }
+           } 
+           await UsuarioModel
+           .findByIdAndUpdate({_id : usuario._id, usuario});
+           return res.status(200).json({msg:'Usuario atualizado com sucesso'})
+
+    }catch(e){
+        console.log(e);
+        return res.status(400).json({erro: 'Nao foi possivel atualizar usuario:' + e});
+    }
+})
+.get( async(req : NextApiRequest , res : NextApiResponse <respostaPadraoMsg | any>) => {
 
     try{
         const{userId} = req?.query;
@@ -16,7 +48,10 @@ const usuarioEndPoint = async(req : NextApiRequest , res : NextApiResponse <resp
             console.log(e);
             res.status(400).json({erro :'Nao foi possivel obter dados do ususario'})
         }
+    });
+    export const config = {
+        api : {
+            bodyParser : false
+        }
     }
-
-
-export default validarTokenJWT (conectamongoDB(usuarioEndPoint));
+export default validarTokenJWT (conectamongoDB(handler));
