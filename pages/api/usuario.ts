@@ -1,10 +1,22 @@
 import type { NextApiRequest , NextApiResponse } from "next";
-import { NextResponse } from "next/server"
+import type { respostaPadraoMsg } from "../../types/respostaPadraoMsg";
 import { validarTokenJWT } from "../../middlewares/validarTokenJWT";
+import { conectamongoDB } from "../../middlewares/conectamongoDB";
+import { UsuarioModel } from "../../models/UsuarioModel";
 
-const usuarioEndPoint = (req : NextApiRequest , res : NextApiResponse) => {
+const usuarioEndPoint = async(req : NextApiRequest , res : NextApiResponse <respostaPadraoMsg | any>) => {
 
-    return res.status(200).json('Usuario autenticado com sucesso')
-}
+    try{
+        const{userId} = req?.query;
+        const usuario = await UsuarioModel.findById(userId);
+        usuario.senha = null;
+        return res.status(200).json(usuario);
 
-export default validarTokenJWT (usuarioEndPoint);
+    }catch(e){
+            console.log(e);
+            res.status(400).json({erro :'Nao foi possivel obter dados do ususario'})
+        }
+    }
+
+
+export default validarTokenJWT (conectamongoDB(usuarioEndPoint));
