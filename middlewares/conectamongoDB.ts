@@ -1,11 +1,9 @@
 import type { NextApiRequest, NextApiResponse, NextApiHandler} from "next";
 import mongoose from 'mongoose';
 import type {respostaPadraoMsg} from "../types/respostaPadraoMsg"
-import { connected } from "process";
-import { handleClientScriptLoad } from "next/script";
 
 export const conectamongoDB = ( handler : NextApiHandler) =>
-  async (req : NextApiRequest , res : NextApiResponse) => {
+  async (req : NextApiRequest , res : NextApiResponse <respostaPadraoMsg | any []>) => {
 
     // verificar se o banco ja esta conectado, 
     //se estiver para edpoint ou proximo middleware
@@ -19,7 +17,7 @@ export const conectamongoDB = ( handler : NextApiHandler) =>
 
     // se a env estiver vazia abortar o  uso do sistema e avisar o programador
     if(!DB_CONEXAO_STRING){
-        return res.status(500) .json({erro : 'ENV de configuracao do banco , nao informado'});
+        return res.status(500).json({erro : 'ENV de configuracao do banco , nao informado'});
     }
 
     mongoose.connection.on('connected',() => console.log('Banco de dados conectado'))

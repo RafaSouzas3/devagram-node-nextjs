@@ -1,4 +1,4 @@
-import type {NextApiResponse} from 'next';
+import type {NextApiRequest, NextApiResponse} from 'next';
 import type { respostaPadraoMsg } from '../../types/respostaPadraoMsg';
 import nc from 'next-connect';
 import {upload, uploadImagemCosmic} from '../../services/uploadImagemCosmic';
@@ -9,7 +9,7 @@ import {UsuarioModel} from '../../models/UsuarioModel';
 
 const handler = nc()
     .use(upload.single('file'))
-    .post(async (req : any, res : NextApiResponse<respostaPadraoMsg>) => {
+    .post(async (req : any, res : NextApiResponse<respostaPadraoMsg | any []>) => {
         try{
             const {userId} = req.query;
             const usuario = await UsuarioModel.findById(userId);
