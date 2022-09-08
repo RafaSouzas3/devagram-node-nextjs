@@ -11,12 +11,12 @@ const likeEndpoint = async ( req : NextApiRequest , res : NextApiResponse<respos
             const {id} = req?.query;
             const publicacao = await PublicacaoModel.findById(id);
             if (publicacao){
-                res.status(400).json({erro :'Publicacao nao encontrada'})
+                return res.status(400).json({erro :'Publicacao nao encontrada'})
             }
             const {userId} = req?.query;
             const usuario = await UsuarioModel.findById(userId);
             if(!usuario){
-                res.status(400).json({erro :'Usuario nao encontrado'})
+                return res.status(400).json({erro :'Usuario nao encontrado'})
             }
             const indexUsuarioNoLike = publicacao.likes.findIndex((e : any) => e.toString() === usuario._id.toString());
             if(indexUsuarioNoLike != -1){
