@@ -10,13 +10,13 @@ const pesquisaEndPoint
     try{
         if(req.method === 'GET'){
             if(req?.query?.id){
-                const usuarioEncontrado = await UsuarioModel.findById(req?.query.id);
-                if(!usuarioEncontrado){
+                const usuariosEncontrados = await UsuarioModel.findById(req?.query.id);
+                if(!usuariosEncontrados){
 
                     return res.status(400).json({erro :'Usuario nao encontrado'})
                 }
-                usuarioEncontrado.senha= null;
-                return res.status(200).json( usuarioEncontrado);
+                usuariosEncontrados.senha= null;
+                return res.status(200).json( usuariosEncontrados);
             }else{
 
                 const {filtro} = req.query;
