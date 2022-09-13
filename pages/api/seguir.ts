@@ -22,10 +22,10 @@ async (req : NextApiRequest , res : NextApiResponse<respostaPadraoMsg | any>) =>
                 return res.status(400).json({erro : 'Usuario a ser seguido nao encontrado'})
 
             }
-            const euJaSigoEsteUsuario = await SeguidorModel.
+            const euJaSigoEsseUsuario = await SeguidorModel.
             find({usuarioId : usuarioLogado._id ,usuarioSeguidoId : usuarioASerSeguido._id});
-            if(euJaSigoEsteUsuario && euJaSigoEsteUsuario.length >0){
-                euJaSigoEsteUsuario.forEach(async(e : any) =>  await SeguidorModel.findByIdAndDelete({_id : e._id}));
+            if(euJaSigoEsseUsuario && euJaSigoEsseUsuario.length >0){
+                euJaSigoEsseUsuario.forEach(async(e : any) =>  await SeguidorModel.findByIdAndDelete({_id : e._id}));
                 usuarioLogado.seguindo--;
                 await UsuarioModel.findByIdAndDelete({_id : usuarioLogado._id},usuarioLogado);
                 usuarioASerSeguido.seguidores--;
