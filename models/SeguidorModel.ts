@@ -1,7 +1,7 @@
 import mongoose ,{Schema} from "mongoose";
 
 const SeguidorSchema = new Schema ({
-    usuarioId : {typr: String , required : true},
+    usuarioId : {type: String , required : true},
     usuarioSeguidoId : {type :String ,required : true}
 
 });
