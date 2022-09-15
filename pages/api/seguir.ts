@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { useAmp } from "next/amp";
 import { conectamongoDB } from '../../middlewares/conectamongoDB';
+import { politicaCors } from "../../middlewares/politicaCors";
 import {validarTokenJWT} from '../../middlewares/validarTokenJWT';
 import { SeguidorModel } from "../../models/SeguidorModel";
 import { UsuarioModel } from "../../models/UsuarioModel";
@@ -59,4 +60,4 @@ async (req : NextApiRequest , res : NextApiResponse<respostaPadraoMsg | any>) =>
 
     }
 }
-export default validarTokenJWT(conectamongoDB(endpointSeguir));
+export default politicaCors (validarTokenJWT(conectamongoDB(endpointSeguir)));

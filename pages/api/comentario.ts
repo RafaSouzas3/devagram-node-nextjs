@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { conectamongoDB } from "../../middlewares/conectamongoDB";
+import { politicaCors } from "../../middlewares/politicaCors";
 import { validarTokenJWT } from "../../middlewares/validarTokenJWT";
 import { PublicacaoModel } from "../../models/PublicacaoModel";
 import { UsuarioModel } from "../../models/UsuarioModel";
@@ -36,4 +37,4 @@ const comentarioEndpoint = async(req : NextApiRequest , res : NextApiResponse<re
     }
     
 }
-export default validarTokenJWT(conectamongoDB(comentarioEndpoint))
+export default politicaCors (validarTokenJWT(conectamongoDB(comentarioEndpoint)));
