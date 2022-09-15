@@ -39,7 +39,8 @@ const feedEndpoint = async (req : NextApiRequest, res : NextApiResponse<resposta
                        {idUsuario : seguidoresIds}
                     ]
                 })
-                    .sort({data : -1})
+                    .sort({data : -1});
+
                     const result = [];
                     for (const publicacao of publicacoes) {
                        const usuarioDaPublicacao = await UsuarioModel.findById(publicacao.idUsuario);
