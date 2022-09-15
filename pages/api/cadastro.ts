@@ -4,13 +4,13 @@ import type {UsuarioRequisicao} from "../../types/UsuarioRequisicao";
 import {UsuarioModel} from '../../models/UsuarioModel';
 import {conectamongoDB} from '../../middlewares/conectamongoDB';
 import md5 from "md5";
-import { upload ,uploadImagemCosmic } from "../../services/uploadImagemCosmic";
+import { updload ,uploadImagemCosmic } from "../../services/uploadImagemCosmic";
 import nc from 'next-connect';
 import { politicaCors } from "../../middlewares/politicaCors";
 
 const handler = nc ()
 
-.use(upload.single('file'))
+.use(updload.single('file'))
 .post(async(req :NextApiRequest, res :NextApiResponse<respostaPadraoMsg>) =>{ 
                 const usuario = req.body as UsuarioRequisicao;
                 if(!usuario.nome || usuario.nome.length < 2){

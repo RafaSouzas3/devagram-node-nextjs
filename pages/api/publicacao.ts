@@ -1,7 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import type { respostaPadraoMsg } from '../../types/respostaPadraoMsg';
 import nc from 'next-connect';
-import {upload, uploadImagemCosmic} from '../../services/uploadImagemCosmic';
+import {updload, uploadImagemCosmic} from '../../services/uploadImagemCosmic';
 import { conectamongoDB } from '../../middlewares/conectamongoDB';
 import {validarTokenJWT} from '../../middlewares/validarTokenJWT';
 import {PublicacaoModel} from '../../models/PublicacaoModel';
@@ -9,7 +9,7 @@ import {UsuarioModel} from '../../models/UsuarioModel';
 import { politicaCors } from '../../middlewares/politicaCors';
 
 const handler = nc()
-    .use(upload.single('file'))
+    .use(updload.single('file'))
     .post(async (req : any, res : NextApiResponse<respostaPadraoMsg | any []>) => {
         try{
             const {userId} = req.query;
