@@ -6,7 +6,7 @@ import { PublicacaoModel } from "../../models/PublicacaoModel";
 import { UsuarioModel } from "../../models/UsuarioModel";
 import type { respostaPadraoMsg } from "../../types/respostaPadraoMsg";
 
-const comentarioEndpoint = async(req : NextApiRequest , res : NextApiResponse<respostaPadraoMsg> ) =>{
+const comentarioEndpoint = async(req : NextApiRequest , res : NextApiResponse<respostaPadraoMsg | any> ) =>{
     try{
         if (req.method === 'PUT'){
             const {userId , id} = req.query;
