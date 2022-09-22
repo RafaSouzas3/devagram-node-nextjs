@@ -1,16 +1,16 @@
-import type {NextApiRequest, NextApiResponse} from 'next';
-import type { respostaPadraoMsg } from '../../types/respostaPadraoMsg';
+import type {NextApiResponse} from 'next';
+import type {RespostaPadraoMsg} from '../../types/RespostaPadraoMsg';
 import nc from 'next-connect';
 import {updload, uploadImagemCosmic} from '../../services/uploadImagemCosmic';
-import { conectamongoDB } from '../../middlewares/conectamongoDB';
+import {conectarMongoDB} from '../../middlewares/conectarMongoDB';
 import {validarTokenJWT} from '../../middlewares/validarTokenJWT';
 import {PublicacaoModel} from '../../models/PublicacaoModel';
 import {UsuarioModel} from '../../models/UsuarioModel';
-import { politicaCors } from '../../middlewares/politicaCors';
+import { politicaCORS } from '../../middlewares/politicaCORS';
 
 const handler = nc()
     .use(updload.single('file'))
-    .post(async (req : any, res : NextApiResponse<respostaPadraoMsg | any []>) => {
+    .post(async (req : any, res : NextApiResponse<RespostaPadraoMsg>) => {
         try{
             const {userId} = req.query;
             const usuario = await UsuarioModel.findById(userId);
@@ -56,4 +56,4 @@ export const config = {
     }
 }
 
-export default politicaCors (validarTokenJWT(conectamongoDB(handler))); 
+export default politicaCORS(validarTokenJWT(conectarMongoDB(handler))); 
